@@ -48,12 +48,11 @@ namespace Project.Migrations
                     b.Property<int?>("ShopingCartId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShopingCartId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopingCartId1");
+                    b.HasIndex("ShopingCartId")
+                        .IsUnique()
+                        .HasFilter("[ShopingCartId] IS NOT NULL");
 
                     b.ToTable("Customer", (string)null);
                 });
@@ -66,16 +65,18 @@ namespace Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<DateOnly>("OrderDate")
                         .HasColumnType("date");
+
+                    b.Property<int?>("ShopingCartId")
+                        .HasColumnType("int");
 
                     b.Property<double>("TotalAmount")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopingCartId");
 
                     b.ToTable("Order", (string)null);
                 });
@@ -120,9 +121,6 @@ namespace Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("ShoppingCart", (string)null);
@@ -131,10 +129,18 @@ namespace Project.Migrations
             modelBuilder.Entity("Project.Models.Customer", b =>
                 {
                     b.HasOne("Project.Models.ShopingCart", "ShopingCart")
-                        .WithMany()
-                        .HasForeignKey("ShopingCartId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne("CustomerId")
+                        .HasForeignKey("Project.Models.Customer", "ShopingCartId");
+
+                    b.Navigation("ShopingCart");
+                });
+
+            modelBuilder.Entity("Project.Models.Order", b =>
+                {
+                    b.HasOne("Project.Models.ShopingCart", "ShopingCart")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShopingCartId")
+                        .HasConstraintName("FK_Order_ShoppingCart_ShopingCartId");
 
                     b.Navigation("ShopingCart");
                 });
@@ -151,6 +157,11 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.ShopingCart", b =>
                 {
+                    b.Navigation("CustomerId")
+                        .IsRequired();
+
+                    b.Navigation("Orders");
+
                     b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
