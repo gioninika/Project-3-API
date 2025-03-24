@@ -12,6 +12,8 @@ namespace Project.Data.config
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id).UseIdentityColumn();
+            builder.HasOne(x => x.ShopingCart).WithMany(x => x.Orders)
+                .HasForeignKey(x => x.ShopingCartId).HasConstraintName("FK_Order_ShoppingCart_ShopingCartId");
         }
     }
 }
