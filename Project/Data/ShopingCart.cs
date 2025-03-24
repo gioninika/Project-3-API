@@ -8,3 +8,4 @@
         public virtual ICollection<Order> Orders { get; set; }
     }
 }
+    
