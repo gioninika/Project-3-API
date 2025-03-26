@@ -66,12 +66,12 @@ namespace Project.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> CreateProductInCartAsync([FromBody] ShopingCartDTO dto)
+        public async Task<ActionResult<APIResponse>> AddToCartAsync([FromBody] ShopingCartDTO dto)
         {
 
             try
             {
-                _logger.LogInformation("CreateProductInCart started Working");
+                _logger.LogInformation("AddToCart started Working");
 
                 if (dto == null)
                     return BadRequest();
@@ -105,11 +105,11 @@ namespace Project.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-        public async Task<ActionResult<APIResponse>> DeleteProductInCartAsync(int id)
+        public async Task<ActionResult<APIResponse>> RemoveFromCartAsync(int id)
         {
             try
             {
-                _logger.LogInformation("DeleteProductInCart started Working");
+                _logger.LogInformation("RemoveFromCart started Working");
 
                 if (id <= 0)
                     return BadRequest();
@@ -135,7 +135,5 @@ namespace Project.Controllers
                 return _apiResponse;
             }
         }
-
-        //getTotalPrice
     }
 }
