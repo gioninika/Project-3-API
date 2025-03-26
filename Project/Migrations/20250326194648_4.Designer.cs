@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Data;
 
@@ -11,9 +12,11 @@ using Project.Data;
 namespace Project.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250326194648_4")]
+    partial class _4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,7 +174,7 @@ namespace Project.Migrations
             modelBuilder.Entity("Project.Models.Customer", b =>
                 {
                     b.HasOne("Project.Models.ShopingCart", "ShopingCart")
-                        .WithOne("Customer")
+                        .WithOne("CustomerId")
                         .HasForeignKey("Project.Models.Customer", "ShopingCartId")
                         .HasConstraintName("FK_Customer_ShoppingCart_ShopingCartId");
 
@@ -200,7 +203,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.ShopingCart", b =>
                 {
-                    b.Navigation("Customer")
+                    b.Navigation("CustomerId")
                         .IsRequired();
 
                     b.Navigation("Orders");
