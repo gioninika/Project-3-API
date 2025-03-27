@@ -12,8 +12,8 @@ using Project.Data;
 namespace Project.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20250324063017_3")]
-    partial class _3
+    [Migration("20250327173041_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -166,6 +166,9 @@ namespace Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("ShoppingCart", (string)null);
@@ -174,7 +177,7 @@ namespace Project.Migrations
             modelBuilder.Entity("Project.Models.Customer", b =>
                 {
                     b.HasOne("Project.Models.ShopingCart", "ShopingCart")
-                        .WithOne("CustomerId")
+                        .WithOne("Customer")
                         .HasForeignKey("Project.Models.Customer", "ShopingCartId")
                         .HasConstraintName("FK_Customer_ShoppingCart_ShopingCartId");
 
@@ -203,7 +206,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.ShopingCart", b =>
                 {
-                    b.Navigation("CustomerId")
+                    b.Navigation("Customer")
                         .IsRequired();
 
                     b.Navigation("Orders");

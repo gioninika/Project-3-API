@@ -163,6 +163,9 @@ namespace Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("ShoppingCart", (string)null);
